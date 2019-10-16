@@ -1,6 +1,6 @@
 FROM alpine:3.10
 
-LABEL maintainer="Joe Bell<joe.bell.1329@gmail.com>"
+LABEL maintainer="motionblurred<fallaizerob@gmail.com>"
 
 RUN apk update
 
@@ -14,8 +14,17 @@ RUN apk add make && apk add curl && apk add openssh
 # Install git
 RUN apk add git
 
-# Install nodejs
-RUN apk add nodejs
+# NODEJS & NPM
+RUN apk add --update npm
+
+# install kubectl
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+
+# Set as executable
+RUN chmod +x ./kubectl
+
+# Move Kubectl to binary dir
+RUN  mv ./kubectl /usr/local/bin/kubectl
 
 # Install yarn
 RUN apk add yarn
